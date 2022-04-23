@@ -72,8 +72,6 @@ module.exports.templateTags = [{
                     params[item.name] = item.value 
                 }))
 
-                console.log(JSON.stringify(params))
-
                 return getSignature(JSON.stringify(params))
             }
         }
