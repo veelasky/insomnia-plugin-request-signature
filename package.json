@@ -1,0 +1,10 @@
+{
+  "name": "insomnia-plugin-request-signature",
+  "version": "0.0.1",
+  "private": true,
+  "insomnia": {
+    "name": "request-signature",
+    "description": ""
+  },
+  "main": "main.js"
+}
