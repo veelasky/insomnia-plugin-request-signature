@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 
 const settings = {
+    hmac: true,
     algorithm: '',
     encoding: '',
     salt: ''
@@ -8,8 +9,9 @@ const settings = {
 
 function getSignature(body)
 {
-    return crypto.createHash(settings.algorithm, settings.salt)
-        .update(body, 'utf-8')
+    let hash = settings.hmac ?  crypto.createHmac(settings.algorithm, settings.salt) : crypto.createHash(settings.algorithm, settings.salt)
+
+    return hash.update(body)
         .digest(settings.encoding)
 }
 
@@ -19,7 +21,13 @@ module.exports.templateTags = [{
     description: 'Create signature based on request or parameter',
     args: [
         {
-            dispayName: 'Algo',
+            displayName: 'Is HMAC?',
+            description: 'Use HMAC for encoding',
+            defaultValue: true,
+            type: 'boolean',
+        }, {
+            dispayName: 'Algorithm',
+            description: 'The encryption algorithm',
             type: 'enum',
             options: [
                 { displayName: 'MD5', value: 'md5' },
@@ -41,10 +49,11 @@ module.exports.templateTags = [{
         }
     ],
 
-    async run (context, algorithm = '', encoding = '', salt = '')
+    async run (context, hmac = true, algorithm = '', encoding = '', salt = '')
     {
         const { meta } = context
 
+        settings.hmac = hmac
         settings.algorithm = algorithm
         settings.encoding = encoding
         settings.salt = salt
@@ -62,7 +71,9 @@ module.exports.templateTags = [{
                 request.body.params.forEach((function (item) {
                     params[item.name] = item.value 
                 }))
-                
+
+                console.log(JSON.stringify(params))
+
                 return getSignature(JSON.stringify(params))
             }
         }
