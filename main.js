@@ -26,7 +26,7 @@ module.exports.templateTags = [{
             defaultValue: true,
             type: 'boolean',
         }, {
-            dispayName: 'Algorithm',
+            displayName: 'Algorithm',
             description: 'The encryption algorithm',
             type: 'enum',
             options: [
