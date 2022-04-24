@@ -21,11 +21,6 @@ module.exports.templateTags = [{
     description: 'Create signature based on request or parameter',
     args: [
         {
-            displayName: 'Is HMAC?',
-            description: 'Use HMAC for encoding',
-            defaultValue: true,
-            type: 'boolean',
-        }, {
             displayName: 'Algorithm',
             description: 'The encryption algorithm',
             type: 'enum',
@@ -46,11 +41,21 @@ module.exports.templateTags = [{
         }, {
             displayName: 'Salt / Key',
             type: 'string',
-        }
+        }, {
+            displayName: 'Is HMAC?',
+            description: 'Use HMAC for encoding',
+            defaultValue: true,
+            type: 'boolean',
+        }, 
     ],
 
-    async run (context, hmac = true, algorithm = '', encoding = '', salt = '')
-    {
+    async run (
+        context, 
+        algorithm = '', 
+        encoding = '', 
+        salt = '', 
+        hmac = true
+    ) {
         const { meta } = context
 
         settings.hmac = hmac
